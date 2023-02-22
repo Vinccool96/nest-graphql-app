@@ -1,0 +1,18 @@
+# ------------------------------------------------------
+# THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
+# ------------------------------------------------------
+
+"""A todo"""
+type Todo {
+  id: ID!
+
+  """Is it done already?"""
+  done: Boolean!
+
+  """The body text"""
+  text: String!
+}
+
+type Query {
+  todo(id: ID!): Todo!
+}
