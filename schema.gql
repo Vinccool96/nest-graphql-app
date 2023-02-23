@@ -14,5 +14,21 @@ type Todo {
 }
 
 type Query {
-  todo(id: ID!): Todo!
+  todo(id: ID!): Todo
+  lastTodo: Todo
+  todos: [Todo!]!
+}
+
+type Mutation {
+  createTodo(todo: TodoInput!): Todo!
+  deleteTodo(id: ID!): Todo
+}
+
+"""Passed to createTodo to create a new todo"""
+input TodoInput {
+  """Is it done already?"""
+  done: Boolean!
+
+  """The body text"""
+  text: String!
 }

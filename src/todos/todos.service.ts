@@ -1,8 +1,8 @@
-import { Injectable, NotFoundException } from "@nestjs/common"
+import { Injectable } from "@nestjs/common"
 import { InjectModel } from "@nestjs/mongoose"
 import { Model } from "mongoose"
 
-import { Todo, TodoDocument } from "./schemas/todo.schema"
+import { Todo, TodoDocument } from "../schemas/todo.schema"
 import { TodoInput } from "./dto/todo.input"
 
 @Injectable()
@@ -13,22 +13,12 @@ export class TodosService {
     return this.todoModel.find().exec()
   }
 
-  async findOne(id: string): Promise<Todo> {
-    const todo = await this.todoModel.findOne({ _id: id }).exec()
-    if (todo === null) {
-      throw new NotFoundException(`Todo with id ${id} doesn't exist`)
-    }
-
-    return todo
+  async findOne(id: string): Promise<Todo | null> {
+    return await this.todoModel.findOne({ _id: id }).exec()
   }
 
-  async delete(id: string): Promise<Todo> {
-    const deletedTodo = await this.todoModel.findByIdAndRemove({ _id: id }).exec()
-    if (deletedTodo === null) {
-      throw new NotFoundException(`Todo with id ${id} doesn't exist and can't be deleted`)
-    }
-
-    return deletedTodo
+  async delete(id: string): Promise<Todo | null> {
+    return await this.todoModel.findByIdAndRemove({ _id: id }).exec()
   }
 
   async create(todo: TodoInput): Promise<Todo> {
