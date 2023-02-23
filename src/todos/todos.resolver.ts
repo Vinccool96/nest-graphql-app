@@ -65,6 +65,21 @@ export class TodosResolver {
   }
 
   @Mutation((_returns) => Todo, { nullable: true })
+  async updateTodo(@Args("id", { type: () => ID }) id: string, @Args("todo") todo: TodoInput): Promise<Todo | null> {
+    const res = await this.todosService.update(id, todo)
+
+    if (res === null) {
+      return null
+    }
+
+    return {
+      id: res._id,
+      done: res.done,
+      text: res.text,
+    }
+  }
+
+  @Mutation((_returns) => Todo, { nullable: true })
   async deleteTodo(@Args("id", { type: () => ID }) id: string): Promise<Todo | null> {
     const todo = await this.todosService.delete(id)
 

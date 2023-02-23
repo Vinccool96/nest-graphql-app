@@ -17,11 +17,15 @@ export class TodosService {
     return await this.todoModel.findOne({ _id: id }).exec()
   }
 
-  async delete(id: string): Promise<Todo | null> {
-    return await this.todoModel.findByIdAndRemove({ _id: id }).exec()
-  }
-
   async create(todo: TodoInput): Promise<Todo> {
     return await this.todoModel.create(todo)
+  }
+
+  async update(id: string, todo: TodoInput): Promise<Todo | null> {
+    return await this.todoModel.findByIdAndUpdate(id, todo).exec()
+  }
+
+  async delete(id: string): Promise<Todo | null> {
+    return await this.todoModel.findByIdAndRemove({ _id: id }).exec()
   }
 }
