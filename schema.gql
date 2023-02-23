@@ -7,7 +7,7 @@ type Todo {
   id: ID!
 
   """Is it done already?"""
-  done: Boolean!
+  done: Boolean
 
   """The body text"""
   text: String!
@@ -28,8 +28,12 @@ type Mutation {
 """Passed to createTodo to create a new todo"""
 input TodoInput {
   """Is it done already?"""
-  done: Boolean!
+  done: Boolean
 
   """The body text"""
   text: String!
+}
+
+type Subscription {
+  todoAdded: Todo
 }

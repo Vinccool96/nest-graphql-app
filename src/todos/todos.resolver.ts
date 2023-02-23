@@ -1,9 +1,12 @@
-import { Args, ID, Mutation, Query, Resolver } from "@nestjs/graphql"
+import { Args, ID, Mutation, Query, Resolver, Subscription } from "@nestjs/graphql"
+import { PubSub } from "graphql-subscriptions"
 
 import { TodosService } from "./todos.service"
 import { Todo } from "./todos.model"
 import { TodoInput } from "./dto/todo.input"
 import { InsertionsService } from "../insertions/insertions.service"
+
+const pubSub = new PubSub()
 
 @Resolver((_of: void) => Todo)
 export class TodosResolver {
@@ -57,11 +60,15 @@ export class TodosResolver {
     const res = await this.todosService.create(todo)
     await this.insertionsService.insertion(res._id)
 
-    return {
+    const created: Todo = {
       id: res._id,
       done: res.done,
       text: res.text,
     }
+
+    pubSub.publish("todoAdded", { todoAdded: created })
+
+    return created
   }
 
   @Mutation((_returns) => Todo, { nullable: true })
@@ -92,5 +99,10 @@ export class TodosResolver {
       done: todo.done,
       text: todo.text,
     }
+  }
+
+  @Subscription((_returns) => Todo, { nullable: true })
+  async todoAdded() {
+    return pubSub.asyncIterator("todoAdded")
   }
 }

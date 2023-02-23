@@ -14,7 +14,9 @@ import { TodosModule } from "./todos/todos.module"
     GraphQLModule.forRoot<ApolloDriverConfig>({
       driver: ApolloDriver,
       autoSchemaFile: "schema.gql",
-      installSubscriptionHandlers: true,
+      subscriptions: {
+        "graphql-ws": true,
+      },
     }),
     TodosModule,
   ],

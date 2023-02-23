@@ -5,7 +5,7 @@ export class Todo {
   @Field((_type) => ID)
   id: string
 
-  @Field({ description: "Is it done already?" })
+  @Field({ description: "Is it done already?", nullable: true })
   done: boolean
 
   @Field({ description: "The body text" })

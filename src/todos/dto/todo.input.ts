@@ -3,7 +3,7 @@ import { IsOptional } from "class-validator"
 
 @InputType({ description: "Passed to createTodo to create a new todo" })
 export class TodoInput {
-  @Field({ description: "Is it done already?" })
+  @Field({ description: "Is it done already?", nullable: true })
   @IsOptional()
   done?: boolean
 
